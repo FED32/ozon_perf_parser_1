@@ -1,0 +1,21 @@
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'master'
+      when: never
+    - if: $CI_COMMIT_BRANCH == "master"
+      variables:
+        TAG_NAME: apps1_shared
+      when: always
+
+
+stages:
+- deploy
+deploy:
+  stage: deploy
+  tags:
+    - ${TAG_NAME}
+  script:
+  - docker compose down
+  - docker rmi ozon_performance_gtcom_parser-ozon-performance-gtcom-parser
+  - docker compose up -d
+#

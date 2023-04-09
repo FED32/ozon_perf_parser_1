@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  ozon-performance-gtcom-parser:
+    container_name: ozon-performance-gtcom-parser
+    build: .
+    restart: always
+    environment:
+      TZ: Europe/Moscow
+      ECOMRU_PG_DB_NAME: ${ECOMRU_PG_DB_NAME}
+      ECOMRU_PG_HOST: ${ECOMRU_PG_HOST}
+      ECOMRU_PG_PORT: ${ECOMRU_PG_PORT}
+      ECOMRU_PG_USER: ${ECOMRU_PG_USER}
+      ECOMRU_PG_PASSWORD: ${ECOMRU_PG_PASSWORD}
+      ECOMRU_PG_SSL_MODE: ${ECOMRU_PG_SSL_MODE}
+      ECOMRU_CH_HOST: ${ECOMRU_CH_HOST}
+      ECOMRU_CH_DB_NAME: ${ECOMRU_CH_DB_NAME}
+      ECOMRU_CH_USER: ${ECOMRU_CH_USER}
+      ECOMRU_CH_PASSWORD: ${ECOMRU_CH_PASSWORD}
+      ECOMRU_CH_PORT: ${ECOMRU_CH_PORT}
+
+    command: sh script.sh
+    volumes:
+      - /home/get/logs_all/ozon_performance_gtcom_parser/:/app/logs/
+
+
