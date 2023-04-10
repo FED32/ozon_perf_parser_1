@@ -12,35 +12,35 @@ def sql_query(query, engine, logger, type_='dict'):
     """Выполнить SQL запрос на чтение"""
 
     with engine.connect() as connection:
-        with connection.begin() as transaction:
-            try:
-                data = pd.read_sql(query, con=connection)
+        # with connection.begin() as transaction:
+        try:
+            data = pd.read_sql(query, con=connection)
 
-                if data is None:
-                    logger.error("database error")
-                    result = None
-                elif data.shape[0] == 0:
-                    logger.info(f"no data")
-                    if type_ == 'dict':
-                        result = []
-                    elif type_ == 'df':
-                        result = data
-                else:
-                    if type_ == 'dict':
-                        result = data.to_dict(orient='records')
-                    elif type_ == 'df':
-                        result = data
+            if data is None:
+                logger.error("database error")
+                result = None
+            elif data.shape[0] == 0:
+                logger.info(f"no data")
+                if type_ == 'dict':
+                    result = []
+                elif type_ == 'df':
+                    result = data
+            else:
+                if type_ == 'dict':
+                    result = data.to_dict(orient='records')
+                elif type_ == 'df':
+                    result = data
 
-            except (exc.DBAPIError, exc.SQLAlchemyError):
-                logger.error("db error")
-                transaction.rollback()
-                raise
-            except BaseException as ex:
-                logger.error(f"{ex}")
-                transaction.rollback()
-                raise
-            finally:
-                connection.close()
+        except (exc.DBAPIError, exc.SQLAlchemyError) as ex:
+            logger.error(f"db error: {ex}")
+            # transaction.rollback()
+            raise
+        except BaseException as ex:
+            logger.error(f"{ex}")
+            # transaction.rollback()
+            raise
+        finally:
+            connection.close()
 
     return result
 

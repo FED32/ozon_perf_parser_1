@@ -27,8 +27,8 @@ def get_reports(*args):
         date_from = str(np.datetime64(last_date, 'D') + np.timedelta64(1, 'D'))
         # date_from = str(last_date + timedelta(days=1))
 
-    except IndexError:
-        date_from = str(date.today() - timedelta(days=30))
+    except (IndexError, KeyError):
+        date_from = str(date.today() - timedelta(days=120))
 
     date_to = str(date.today() - timedelta(days=1))
 
