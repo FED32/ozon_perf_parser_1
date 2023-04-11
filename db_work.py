@@ -7,7 +7,6 @@ import glob
 from sqlalchemy import exc
 
 
-# class DbWorking(host, port, name, user, password):
 def sql_query(query, engine, logger, type_='dict'):
     """Выполнить SQL запрос на чтение"""
 
