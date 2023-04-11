@@ -12,7 +12,7 @@ import logger
 import db_work
 import db_work_ch
 from ozon_performance import OzonPerformance
-from ozon_performance import DbWorking
+# from ozon_performance import DbWorking
 
 
 logger = logger.init_logger()

@@ -4,3 +4,4 @@ SQLAlchemy~=1.4.39
 requests~=2.28.2
 psycopg2~=2.9.5
 clickhouse-driver~=0.2.5
+clickhouse-connect~=0.5.20
