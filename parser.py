@@ -28,7 +28,7 @@ def get_reports(*args):
         # date_from = str(last_date + timedelta(days=1))
 
     except (IndexError, KeyError):
-        date_from = str(date.today() - timedelta(days=120))
+        date_from = str(date.today() - timedelta(days=90))
 
     date_to = str(date.today() - timedelta(days=1))
 
@@ -51,7 +51,10 @@ elif config.using_db == 'clickhouse':
         port=config.CH_PORT,
         username=config.CH_USER,
         password=config.CH_PASSWORD,
-        database=config.CH_DB_NAME
+        database=config.CH_DB_NAME,
+        secure=True,
+        verify=True,
+        ca_cert="/usr/local/share/ca-certificates/Yandex/YandexCA.crt"
     )
 
     accounts = db_work_ch.get_accounts(client=client, logger=logger)
