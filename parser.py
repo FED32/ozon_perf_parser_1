@@ -27,7 +27,7 @@ def get_reports(*args):
         date_from = str(np.datetime64(last_date, 'D') + np.timedelta64(1, 'D'))
         # date_from = str(last_date + timedelta(days=1))
 
-    except (IndexError, KeyError):
+    except (IndexError, KeyError, ValueError):
         date_from = str(date.today() - timedelta(days=90))
 
     date_to = str(date.today() - timedelta(days=1))
@@ -45,6 +45,7 @@ if config.using_db == 'postgres':
     last_dates = db_work.get_last_dates(table_name=config.stat_table, engine=engine, logger=logger)
 
 elif config.using_db == 'clickhouse':
+
     client = clickhouse_connect.get_client(
         interface='https',
         host=config.CH_HOST,
@@ -54,10 +55,12 @@ elif config.using_db == 'clickhouse':
         database=config.CH_DB_NAME,
         secure=True,
         verify=True,
-        ca_cert="/usr/local/share/ca-certificates/Yandex/YandexCA.crt"
+        ca_cert=config.CH_CA_CERTS
     )
 
-    accounts = db_work_ch.get_accounts(client=client, logger=logger)
+    # client = db_work_ch.get_client(logger)
+
+    accounts = db_work_ch.get_accounts(client=client, logger=logger).drop_duplicates(subset=['client_id', 'client_secret'], keep='last')
     last_dates = db_work_ch.get_last_dates(table_name=config.stat_table, client=client, logger=logger)
 
 else:

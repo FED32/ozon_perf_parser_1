@@ -1,4 +1,29 @@
+# from contextlib import contextmanager
+# import clickhouse_connect
 from clickhouse_connect.driver.exceptions import ClickHouseError, InterfaceError, DatabaseError, ProgrammingError
+# import config
+
+
+# @contextmanager
+# def get_client(logger) -> clickhouse_connect.get_client:
+#     client = clickhouse_connect.get_client(
+#         interface='https',
+#         host=config.CH_HOST,
+#         port=config.CH_PORT,
+#         username=config.CH_USER,
+#         password=config.CH_PASSWORD,
+#         database=config.CH_DB_NAME,
+#         # secure=True,
+#         # verify=True,
+#         # ca_cert="/usr/local/share/ca-certificates/Yandex/YandexCA.crt"
+#     )
+#
+#     try:
+#         return client
+#     except Exception as err:
+#         logger.error(err)
+#     finally:
+#         client.disconnect()
 
 
 def get_accounts(client, logger):

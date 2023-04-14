@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import date
 
 PG_HOST = os.environ.get('ECOMRU_PG_HOST', None)
@@ -9,17 +10,14 @@ PG_USER = os.environ.get('ECOMRU_PG_USER', None)
 PG_PASSWORD = os.environ.get('ECOMRU_PG_PASSWORD', None)
 PG_target_session_attrs = 'read-write'
 
-
 CH_HOST = os.environ.get('ECOMRU_CH_HOST', None)
 CH_DB_NAME = os.environ.get('ECOMRU_CH_DB_NAME', None)
 CH_USER = os.environ.get('ECOMRU_CH_USER', None)
 CH_PASSWORD = os.environ.get('ECOMRU_CH_PASSWORD', None)
 CH_PORT = os.environ.get('ECOMRU_CH_PORT', None)
-# CH_CA_CERTS = 'C:/Users/FED/.clickhouse/YandexCA.crt'
 
 
 PG_DB_PARAMS = f"postgresql://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DB_NAME}"
-# CH_DB_PARAMS = f"clickhouse://{CH_USER}:{CH_PASSWORD}@{CH_HOST}:{CH_PORT}/{CH_DB_NAME}?ssl=True"
 
 using_db = 'clickhouse'
 data_folder = './data'
@@ -37,4 +35,12 @@ if not os.path.isdir(data_folder):
 path_ = f'{data_folder}/{str(date.today())}/'
 if not os.path.isdir(path_):
     os.mkdir(path_)
+
+
+if sys.platform == 'linux':
+    CH_CA_CERTS = "/usr/local/share/ca-certificates/Yandex/YandexCA.crt"
+elif sys.platform == 'win32':
+    CH_CA_CERTS = 'C:/Users/FED/.clickhouse/YandexCA.crt'
+else:
+    CH_CA_CERTS = None
 
